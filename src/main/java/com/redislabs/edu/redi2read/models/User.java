@@ -1,5 +1,6 @@
 package com.redislabs.edu.redi2read.models;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -44,9 +45,9 @@ public class User {
     private String passwordConfirmation;
 
     @Reference
-    private Set<String> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
-    public void addRole( String role ) {
+    public void addRole( Role role ) {
         roles.add( role );
     }
 
