@@ -115,12 +115,12 @@ public class CartRepository implements CrudRepository<Cart, String> {
         String cartId = redisHash().get( CARTS_BY_USER_ID_IDX, userId.toString() );
         return (cartId != null) ? findById( cartId ) : Optional.empty();
     }
-    
-    private static <S extends Cart> String getKey( S cart ) {
+
+    public static <S extends Cart> String getKey( S cart ) {
         return getKey( cart.getId() );
     }
 
-    private static String getKey( String id ) {
+    public static String getKey( String id ) {
         return String.format( "%s:%s", idPrefix, id );
     }
 
