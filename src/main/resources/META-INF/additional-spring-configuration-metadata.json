@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "app.book-ratings.rating-stars",
+      "type": "java.lang.Integer",
+      "description": "Maximum number of stars to use for book ratings."
+    },
+    {
+      "name": "app.book-ratings.number-of-ratings",
+      "type": "java.lang.Integer",
+      "description": "Number of book ratings to auto-generate on app initialization."
+    }
+  ]
+}
