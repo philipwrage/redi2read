@@ -1,5 +1,6 @@
 package com.redislabs.edu.redi2read.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Data;
@@ -47,10 +48,19 @@ public class User {
     private String passwordConfirmation;
 
     @Reference
+    @JsonIdentityReference( alwaysAsId = true )
     private Set<Role> roles = new HashSet<>();
+
+    @Reference
+    @JsonIdentityReference( alwaysAsId = true )
+    private Set<Book> books = new HashSet<>();
 
     public void addRole( Role role ) {
         roles.add( role );
+    }
+
+    public void addBook( Book book ) {
+        books.add( book );
     }
 
 }
