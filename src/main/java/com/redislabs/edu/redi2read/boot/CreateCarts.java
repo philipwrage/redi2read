@@ -76,7 +76,7 @@ public class CreateCarts implements CommandLineRunner {
 
     private Set<CartItem> getCartItemsForBooks( Set<Book> books ) {
         Set<CartItem> cartItems = new HashSet<>();
-        
+
         books.forEach( book -> {
             CartItem cartItem = CartItem.builder()
                 .isbn( book.getId() )
