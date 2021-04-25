@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redislabs.edu.redi2read.models.Book;
@@ -46,8 +47,6 @@ public class CreateBooks implements CommandLineRunner {
     public void run( String... args ) throws Exception {
         if ( bookRepository.count() == 0 ) {
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.enable( JsonParser.Feature.IGNORE_UNDEFINED );
-            objectMapper.enable( JsonGenerator.Feature.IGNORE_UNKNOWN );
             TypeReference<List<Book>> bookTypeReference = new TypeReference<>() {
             };
 
