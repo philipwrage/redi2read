@@ -4,6 +4,10 @@ import com.redislabs.edu.redi2read.models.Book;
 import com.redislabs.edu.redi2read.models.Category;
 import com.redislabs.edu.redi2read.repositories.BookRepository;
 import com.redislabs.edu.redi2read.repositories.CategoryRepository;
+import com.redislabs.lettusearch.RediSearchCommands;
+import com.redislabs.lettusearch.SearchResults;
+import com.redislabs.lettusearch.StatefulRediSearchConnection;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +29,17 @@ import java.util.Map;
 public class BookController {
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
+    private final StatefulRediSearchConnection<String, String> searchConnection;
+
+    @Value( "${app.book-search-index-name}" )
+    private String bookSearchIndexName;
 
     public BookController( BookRepository bookRepository,
-                           CategoryRepository categoryRepository ) {
+                           CategoryRepository categoryRepository,
+                           StatefulRediSearchConnection<String, String> searchConnection ) {
         this.bookRepository = bookRepository;
         this.categoryRepository = categoryRepository;
+        this.searchConnection = searchConnection;
     }
 
     @GetMapping
@@ -54,5 +64,11 @@ public class BookController {
     @GetMapping( "/{isbn}" )
     public Book getBook( @PathVariable( "isbn" ) String isbn ) {
         return bookRepository.findById( isbn ).get();
+    }
+
+    @GetMapping( "/search" )
+    public SearchResults<String, String> search( @RequestParam( "q" ) String query ) {
+        RediSearchCommands<String, String> commands = searchConnection.sync();
+        return commands.search( bookSearchIndexName, query );
     }
 }

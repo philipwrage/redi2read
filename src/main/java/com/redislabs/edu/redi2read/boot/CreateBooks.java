@@ -1,6 +1,8 @@
 package com.redislabs.edu.redi2read.boot;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,6 +46,8 @@ public class CreateBooks implements CommandLineRunner {
     public void run( String... args ) throws Exception {
         if ( bookRepository.count() == 0 ) {
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable( JsonParser.Feature.IGNORE_UNDEFINED );
+            objectMapper.enable( JsonGenerator.Feature.IGNORE_UNKNOWN );
             TypeReference<List<Book>> bookTypeReference = new TypeReference<>() {
             };
 
@@ -82,7 +86,7 @@ public class CreateBooks implements CommandLineRunner {
                 } catch ( FileNotFoundException e ) {
                     log.error( "Unable to create FileInputStream for file: {}", file.getPath() );
                 } catch ( IOException e ) {
-                    log.error( "Unable to parse JSON from within file: {}", file.getPath() );
+                    log.error( "Unable to parse JSON from within file: {}", file.getPath(), e );
                 }
             } );
 
