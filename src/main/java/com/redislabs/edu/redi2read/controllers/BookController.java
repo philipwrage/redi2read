@@ -7,6 +7,8 @@ import com.redislabs.edu.redi2read.repositories.CategoryRepository;
 import com.redislabs.lettusearch.RediSearchCommands;
 import com.redislabs.lettusearch.SearchResults;
 import com.redislabs.lettusearch.StatefulRediSearchConnection;
+import com.redislabs.lettusearch.Suggestion;
+import com.redislabs.lettusearch.SuggetOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +35,8 @@ public class BookController {
 
     @Value( "${app.book-search-index-name}" )
     private String bookSearchIndexName;
+    @Value( "${app.auto-complete-key}" )
+    private String autoCompleteKey;
 
     public BookController( BookRepository bookRepository,
                            CategoryRepository categoryRepository,
@@ -71,4 +75,12 @@ public class BookController {
         RediSearchCommands<String, String> commands = searchConnection.sync();
         return commands.search( bookSearchIndexName, query );
     }
+
+    @GetMapping( "/authors" )
+    public List<Suggestion<String>> authorAutoComplete( @RequestParam( "q" ) String query ) {
+        RediSearchCommands<String, String> commands = searchConnection.sync();
+        SuggetOptions options = SuggetOptions.builder().max( 20L ).build();
+        return commands.sugget( autoCompleteKey, query, options );
+    }
+
 }
