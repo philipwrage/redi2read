@@ -34,6 +34,7 @@ public class CreateAuthorNameSuggestions implements CommandLineRunner {
 
     @Override
     public void run( String... args ) throws Exception {
+        log.debug( "Starting CommandLineRunner: {}", getClass().getName() );
         Boolean hasAutoCompleteKey = Optional.ofNullable( redisTemplate.hasKey( autoCompleteKey ) ).orElse( false );
         if ( !hasAutoCompleteKey ) {
             RediSearchCommands<String,String> commands = searchConnection.sync();

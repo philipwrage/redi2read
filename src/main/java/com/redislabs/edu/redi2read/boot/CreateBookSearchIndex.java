@@ -28,6 +28,7 @@ public class CreateBookSearchIndex implements CommandLineRunner {
 
     @Override
     public void run( String... args ) throws Exception {
+        log.debug( "Starting CommandLineRunner: {}", getClass().getName() );
         RediSearchCommands<String, String> searchCommands = searchConnection.sync();
 
         try {

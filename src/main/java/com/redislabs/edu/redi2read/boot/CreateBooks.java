@@ -45,6 +45,7 @@ public class CreateBooks implements CommandLineRunner {
 
     @Override
     public void run( String... args ) throws Exception {
+        log.debug( "Starting CommandLineRunner: {}", getClass().getName() );
         if ( bookRepository.count() == 0 ) {
             ObjectMapper objectMapper = new ObjectMapper();
             TypeReference<List<Book>> bookTypeReference = new TypeReference<>() {

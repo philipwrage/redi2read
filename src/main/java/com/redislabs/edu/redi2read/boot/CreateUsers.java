@@ -34,6 +34,7 @@ public class CreateUsers implements CommandLineRunner {
 
     @Override
     public void run( String... args ) throws Exception {
+        log.debug( "Starting CommandLineRunner: {}", getClass().getName() );
         if ( userRepository.count() == 0 ) {
             Role adminRole = roleRepository.findFirstByName( "admin" );
             Role customerRole = roleRepository.findFirstByName( "customer" );

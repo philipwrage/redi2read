@@ -31,6 +31,7 @@ public class CreateBookRatings implements CommandLineRunner {
 
     @Override
     public void run( String... args ) throws Exception {
+        log.debug( "Starting CommandLineRunner: {}", getClass().getName() );
         if ( bookRatingRepository.count() == 0 ) {
             Random random = new Random();
 
